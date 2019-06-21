@@ -4,26 +4,30 @@ import * as types from './actionTypes';
 
 export const setSmurfs = smurfs => ({ type: types.GET_SMURFS, payload: smurfs });
 
+export const switchLoading = () => ({ type: types.SWITCH_LOADING });
+
+export const setError = error => ({ type: types.SET_ERROR, payload: error });
+
 export const getSmurfs = () => dispatch => {
-  dispatch({ type: types.START_GETTING_SMURFS });
+  dispatch(switchLoading());
   axios
     .get('http://localhost:3333/smurfs')
     .then(res => {
       dispatch(setSmurfs(res.data));
     })
-    .catch(error => console.log(error.message))
-    .then(() => dispatch({ type: types.FINISH_GETTING_SMURFS }));
+    .catch(error => dispatch(setError(error.message)))
+    .then(() => dispatch(switchLoading()));
 };
 
 export const addSmurf = (name, age, height) => dispatch => {
-  dispatch({ type: types.START_ADDING_SMURF });
+  dispatch(switchLoading());
   axios
     .post('http://localhost:3333/smurfs', { name, age, height })
     .then(res => {
       dispatch(setSmurfs(res.data));
     })
-    .catch(error => console.log(error.message))
-    .then(() => dispatch({ type: types.FINISH_ADDING_SMURF }));
+    .catch(error => dispatch(setError(error.message)))
+    .then(() => dispatch(switchLoading()));
 };
 
 // export const updateSmurf = (id, name, age, height) => dispatch => {

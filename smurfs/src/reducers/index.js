@@ -13,10 +13,7 @@ import * as types from '../actions/actionTypes';
 */
 const initialState = {
   smurfs: [],
-  gettingSmurfs: false,
-  addingSmurf: false,
-  updatingSmurf: false,
-  deletingSmurf: false,
+  loading: false,
   error: null,
 };
 
@@ -24,14 +21,10 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case types.GET_SMURFS:
       return { ...state, smurfs: action.payload };
-    case types.START_GETTING_SMURFS:
-      return { ...state, gettingSmurf: true };
-    case types.FINISH_GETTING_SMURFS:
-      return { ...state, gettingSmurf: false };
-    case types.START_ADDING_SMURF:
-      return { ...state, addingSmurf: true };
-    case types.FINISH_ADDING_SMURF:
-      return { ...state, addingSmurf: false };
+    case types.SWITCH_LOADING:
+      return { ...state, loading: !state.loading };
+    case types.SET_ERROR:
+      return { ...state, error: action.payload };
     default:
       return state;
   }
