@@ -2,16 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
-import /* You need some sort of reducer */ './reducers';
+import smurfReducer from './reducers';
 
 import App from './components/App';
 import './index.css';
 
 const store = createStore(
-  () => {}, // this is the most basic reducer. A function that returns and object. Replace it.
-  applyMiddleware(thunk, logger),
+  smurfReducer,
+  compose(
+    applyMiddleware(thunk, logger),
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+  ),
 );
 
 ReactDOM.render(
